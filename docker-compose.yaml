@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  backend:
+    build: Carpet
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - my-network
+
+  frontend:
+    build: Frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - my-network
+
+  database:
+    container_name: db
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=final_project
+      - MYSQL_ROOT_PASSWORD=root
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./Db/final_project.sql:/docker-entrypoint-initdb.d/final_project.sql
+    networks:
+      - my-network
+
+networks:
+  my-network:
